@@ -13,12 +13,13 @@ public class PerformingAspect {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Around("execution(* com.example.aopdemo.*.*.*(..))")// Will execute before and after
+    //@Around("execution(* com.example.aopdemo.*.*.*(..))")// Will execute before and after
+    @Around("com.example.aopdemo.aspect.CommonAspect.trackTimeAnnotation()")
     public Object findExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         var currentTimeMillis = System.currentTimeMillis();
         Object returnValue = joinPoint.proceed();
-        var stopTimeMilis = System.currentTimeMillis();
-        var duration = stopTimeMilis - currentTimeMillis;
+        var stopTimeMillis = System.currentTimeMillis();
+        var duration = stopTimeMillis - currentTimeMillis;
         logger.info("Around aspect - Time to execute {} is {} ms",joinPoint.getSignature(), duration);
         return returnValue;
     }
